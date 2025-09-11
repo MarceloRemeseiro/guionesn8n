@@ -1,0 +1,261 @@
+{
+  "name": "BLOTATO",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.blotato.com/v2/media",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "blotato-api-key",
+              "value": "={{ $('Prepare for Publish').item.json.blotato_api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $('Get Avatar Video').item.json.data.video_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1480,
+        -40
+      ],
+      "id": "607038a4-ff44-4c05-b1f8-d435404065e7",
+      "name": "Upload to Blotato"
+    },
+    {
+      "parameters": {
+        "content": "# Publicar en redes sociales\n- Regístrate en Blotato: https://www.blotato.com\n- La API de Blotato actualmente no permite subir vídeos a Bluesky ni a Pinterest.\n- Esta función se habilitará en el futuro, por lo que he desactivado esos nodos por ahora.",
+        "height": 1160,
+        "width": 1280,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        -560
+      ],
+      "id": "a25777fb-c8b7-4751-841b-f103b8f35843",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"blotato_api_key\": \"blt_qUuRW2Iey6DqwHbBy6J5sHobFYXged6UYtKASySbmRQ=\",\n  \"instagram_id\": \"4612\",\n  \"youtube_id\": \"3454\",\n  \"tiktok_id\": \"5678\",\n  \"twitter_id\": \"2583\",\n  \"linkedin_id\": \"2613\",\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1220,
+        -40
+      ],
+      "id": "bbde645d-8f46-4050-9ca2-52dcc898555b",
+      "name": "Prepare for Publish"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.blotato.com/v2/posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "blotato-api-key",
+              "value": "={{ $('Prepare for Publish').item.json.blotato_api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"post\": {\n    \"target\": {\n      \"targetType\": \"youtube\",\n      \"url\": \"{{ $json.url }}\",\n      \"title\": \"{{ $('Setup Heygen').item.json.titulo }}\",\n      \"privacyStatus\": \"public\",\n      \"shouldNotifySubscribers\": true\n    },\n    \"content\": {\n      \"text\": \"{{ $('Setup Heygen').item.json.descripcion }}\",\n      \"platform\": \"youtube\",\n      \"mediaUrls\": [\"{{ $json.url }}\"]\n    },\n    \"accountId\": \"{{ $('Prepare for Publish').item.json.youtube_id }}\"\n  }   \n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2060,
+        -500
+      ],
+      "id": "e59a99d1-dd9d-4466-93e7-574ffd1a65f7",
+      "name": "YOUTUBE"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.blotato.com/v2/posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "blotato-api-key",
+              "value": "={{ $('Prepare for Publish').item.json.blotato_api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"post\": {\n    \"target\": {\n      \"targetType\": \"tiktok\",\n      \"isYourBrand\": false,\n      \"disabledDuet\": false,\n      \"privacyLevel\": \"PUBLIC_TO_EVERYONE\",\n      \"isAiGenerated\": false,\n      \"disabledStitch\": false,\n      \"disabledComments\": false,\n      \"isBrandedContent\": false\n    },\n    \"content\": {\n      \"text\": \"{{ $('Setup Heygen').item.json.descripcion }}\",\n      \"platform\": \"tiktok\",\n      \"mediaUrls\": [\"{{ $json.url }}\"]\n    },\n    \"accountId\": \"{{ $('Prepare for Publish').item.json.tiktok_id }}\"\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2060,
+        -260
+      ],
+      "id": "5e3d00a5-fc57-4571-ad0a-deaab38ea57d",
+      "name": "TIKTOK"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.blotato.com/v2/posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "blotato-api-key",
+              "value": "={{ $('Prepare for Publish').item.json.blotato_api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"post\": {\n    \"target\": {\n      \"targetType\": \"twitter\"\n    },\n    \"content\": {\n      \"text\": \"{{ $('Setup Heygen').item.json.tweet }}\",\n      \"platform\": \"twitter\",\n      \"mediaUrls\": [\"{{ $json.url }}\"]\n    },\n    \"accountId\": \"{{ $('Prepare for Publish').item.json.twitter_id }}\"\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2060,
+        -40
+      ],
+      "id": "20fd18c1-90d7-4f36-a035-07f656901084",
+      "name": "X"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.blotato.com/v2/posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "blotato-api-key",
+              "value": "={{ $('Prepare for Publish').item.json.blotato_api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"post\": {\n    \"target\": {\n      \"targetType\": \"instagram\",\n      \"mediaType\":\"reel\"\n    },\n    \"content\": {\n      \"text\": {{ $('Prepare for Publish').item.json.final_text_long.toJsonString() }},\n      \"platform\": \"instagram\",\n      \"mediaUrls\": [\"{{ $json.url }}\"]\n    },\n    \"accountId\": \"{{ $('Prepare for Publish').item.json.instagram_id }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2060,
+        180
+      ],
+      "id": "61f672c1-42ca-47f2-b1ca-934c0e6e587f",
+      "name": "INSTAGRAM"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.blotato.com/v2/posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "blotato-api-key",
+              "value": "={{ $('Prepare for Publish').item.json.blotato_api_key }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"post\": {\n    \"target\": {\n      \"targetType\": \"linkedin\"\n    },\n    \"content\": {\n      \"text\": \"{{ $('Setup Heygen').item.json.guion }}\",\n      \"platform\": \"linkedin\",\n      \"mediaUrls\": [\"{{ $json.url }}\"]\n    },\n    \"accountId\": \"{{ $('Prepare for Publish').item.json.linkedin_id }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2060,
+        400
+      ],
+      "id": "bd2dd8c0-169d-48ad-957f-fedbfbfe33b2",
+      "name": "LINKEDIN"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Upload to Blotato": {
+      "main": [
+        [
+          {
+            "node": "INSTAGRAM",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "LINKEDIN",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "TIKTOK",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "YOUTUBE",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "X",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare for Publish": {
+      "main": [
+        [
+          {
+            "node": "Upload to Blotato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "61f8367a-1824-4d95-a00e-1d2eab4644a0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9d7fc3c0eb3a4904bae921b91f098fad0e80332dd786fc8b7faabecf5bfb8b08"
+  },
+  "id": "fsoqzPSLlxELMqOf",
+  "tags": []
+}

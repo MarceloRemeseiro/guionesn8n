@@ -1,0 +1,71 @@
+{
+  "name": "Content Generation Fixed",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-content",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        40,
+        20
+      ],
+      "id": "fixed-webhook-001",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.body.callbackUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"videoId\": \"{{ $json.body.videoId }}\",\n  \"success\": true,\n  \"content\": {\n    \"titulo\": \"Cámaras PTZ: ¿Sabías que pueden predecir el movimiento?\",\n    \"tema\": \"Tecnología predictiva en cámaras PTZ profesionales\",\n    \"guion\": \"¿Sabías que las cámaras PTZ más avanzadas pueden predecir el movimiento de los objetos usando inteligencia artificial? Esta tecnología, llamada tracking predictivo, analiza patrones de movimiento en tiempo real y ajusta automáticamente el encuadre antes de que el objeto se mueva. En eventos deportivos, pueden anticipar hacia dónde va el balón con una precisión del noventa y cinco por ciento. Esto se logra mediante algoritmos de machine learning que procesan miles de frames por segundo, identificando velocidades, trayectorias y patrones de comportamiento. El resultado es un seguimiento tan fluido que parece casi mágico. Esta tecnología está revolucionando la producción audiovisual, permitiendo tomas perfectas sin intervención humana. Si quieres más curiosidades como esta, sígueme. Soy Marcelo y esto es StreamingPro.\",\n    \"textoLinkedin\": \"La tecnología de tracking predictivo en cámaras PTZ está revolucionando la producción audiovisual profesional. Estos sistemas pueden anticipar movimientos con una precisión extraordinaria, utilizando algoritmos de machine learning que analizan patrones en tiempo real. Esta innovación permite obtener tomas perfectas en eventos deportivos y producciones complejas, reduciendo significativamente la intervención manual y aumentando la calidad del producto final.\",\n    \"tweet\": \"🎥 ¿Sabías que las cámaras PTZ pueden predecir movimientos con 95% de precisión? El futuro del broadcast ya está aquí. #PTZ #Broadcast #StreamingPro\",\n    \"descripcion\": \"Descubre cómo la tecnología de tracking predictivo en cámaras PTZ está transformando la producción audiovisual. Estas cámaras utilizan inteligencia artificial para anticipar movimientos con increíble precisión, especialmente útil en eventos deportivos y producciones en vivo. Aprende sobre los algoritmos de machine learning que hacen posible esta revolución tecnológica.\"\n  },\n  \"metadata\": {\n    \"processedAt\": \"{{ new Date().toISOString() }}\",\n    \"promptUsed\": \"{{ $json.body.prompt.nombre }}\",\n    \"temasEvitados\": [],\n    \"totalTemasAnteriores\": 0\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        340,
+        20
+      ],
+      "id": "fixed-http-001",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fixed-v1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "ContentGenerationFixed",
+  "tags": []
+}

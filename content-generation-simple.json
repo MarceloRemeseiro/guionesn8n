@@ -1,0 +1,214 @@
+{
+  "name": "Content Generation Simple",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-content",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ],
+      "id": "webhook-trigger-simple",
+      "name": "Webhook",
+      "webhookId": "generate-content-simple"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "extract-videoid",
+              "name": "videoId",
+              "value": "={{ $json.body.videoId }}",
+              "type": "string"
+            },
+            {
+              "id": "extract-callback",
+              "name": "callbackUrl",
+              "value": "={{ $json.body.callbackUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "extract-prompt-content",
+              "name": "promptContent",
+              "value": "={{ $json.body.prompt.contenido }}",
+              "type": "string"
+            },
+            {
+              "id": "extract-prompt-name",
+              "name": "promptName",
+              "value": "={{ $json.body.prompt.nombre }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        300
+      ],
+      "id": "extract-data-simple",
+      "name": "Extract Data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "mock-content-001",
+              "name": "mockContent",
+              "value": "{\n  \"titulo\": \"Cómo usar cámaras PTZ en broadcast profesional\",\n  \"tema\": \"Configuración avanzada de cámaras PTZ\",\n  \"guion\": \"¿Sabías que las cámaras PTZ pueden revolucionar tu setup de broadcast? Estas cámaras te permiten hacer pan, tilt y zoom de forma remota, perfectas para eventos en vivo. La clave está en la configuración de los presets y la sincronización con tu switcher. Si quieres más consejos como este, sígueme. Soy Marcelo y esto es StreamingPro.\",\n  \"textoLinkedin\": \"Las cámaras PTZ han cambiado el juego en la producción audiovisual. Su capacidad de movimiento remoto y los presets programables hacen que una sola persona pueda manejar múltiples ángulos con precisión profesional. #Broadcast #PTZ #StreamingPro\",\n  \"tweet\": \"🎥 Las cámaras PTZ son el futuro del broadcast. Movimiento remoto + presets = productividad máxima. ¿Ya las usas en tus producciones?\",\n  \"descripcion\": \"En este video exploramos las capacidades de las cámaras PTZ para broadcast profesional. Aprenderás sobre configuración de presets, integración con switchers y mejores prácticas para eventos en vivo. Perfecto para productores audiovisuales que buscan optimizar sus setups de grabación.\"\n}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        680,
+        300
+      ],
+      "id": "mock-ai-response",
+      "name": "Mock AI Response"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the mock content and prepare response\nconst mockContent = JSON.parse($json.mockContent);\n\n// Prepare success response\nconst response = {\n  videoId: $('Extract Data').item.json.videoId,\n  success: true,\n  content: mockContent,\n  metadata: {\n    processedAt: new Date().toISOString(),\n    promptUsed: $('Extract Data').item.json.promptName,\n    temasEvitados: [],\n    totalTemasAnteriores: 0\n  }\n};\n\nreturn [{ json: response }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ],
+      "id": "prepare-response",
+      "name": "Prepare Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Extract Data').item.json.callbackUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "User-Agent",
+              "value": "n8n-webhook"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1120,
+        300
+      ],
+      "id": "send-callback",
+      "name": "Send Callback"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ received: true, videoId: $('Extract Data').item.json.videoId, status: 'processing', timestamp: new Date().toISOString() }) }}"
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        300
+      ],
+      "id": "webhook-response",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Data": {
+      "main": [
+        [
+          {
+            "node": "Mock AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock AI Response": {
+      "main": [
+        [
+          {
+            "node": "Prepare Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Response": {
+      "main": [
+        [
+          {
+            "node": "Send Callback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Callback": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "simple-v1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "ContentGenerationSimple",
+  "tags": []
+}

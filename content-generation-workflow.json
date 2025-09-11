@@ -1,0 +1,521 @@
+{
+  "name": "Content Generation Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-content",
+        "responseMode": "responseNode"
+      },
+      "id": "b1e9c2d0-8f7a-4e3d-9c2b-1a3e5f7g9h1i",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "generate-content-webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "videoId",
+              "name": "videoId",
+              "value": "={{ $json.body.videoId }}",
+              "type": "string"
+            },
+            {
+              "id": "promptId",
+              "name": "promptId",
+              "value": "={{ $json.body.prompt.id }}",
+              "type": "string"
+            },
+            {
+              "id": "promptNombre",
+              "name": "promptNombre",
+              "value": "={{ $json.body.prompt.nombre }}",
+              "type": "string"
+            },
+            {
+              "id": "promptDescripcion",
+              "name": "promptDescripcion",
+              "value": "={{ $json.body.prompt.descripcion }}",
+              "type": "string"
+            },
+            {
+              "id": "promptContenido",
+              "name": "promptContenido",
+              "value": "={{ $json.body.prompt.contenido }}",
+              "type": "string"
+            },
+            {
+              "id": "categoriaNombre",
+              "name": "categoriaNombre",
+              "value": "={{ $json.body.prompt.categoria.nombre }}",
+              "type": "string"
+            },
+            {
+              "id": "categoriaColor",
+              "name": "categoriaColor",
+              "value": "={{ $json.body.prompt.categoria.color }}",
+              "type": "string"
+            },
+            {
+              "id": "callbackUrl",
+              "name": "callbackUrl",
+              "value": "={{ $json.body.callbackUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "timestamp",
+              "name": "timestamp",
+              "value": "={{ $json.body.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "totalTemasAnteriores",
+              "name": "totalTemasAnteriores",
+              "value": "={{ $json.body.totalTemasAnteriores }}",
+              "type": "number"
+            },
+            {
+              "id": "ultimosTemasPublicados",
+              "name": "ultimosTemasPublicados",
+              "value": "={{ $json.body.ultimosTemasPublicados || [] }}",
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "id": "c2f0a3b1-9e8d-5f4e-0d1c-2b4f6a8c0e2f",
+      "name": "Extract and Structure Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $json.videoId }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              }
+            },
+            {
+              "id": "condition2",
+              "leftValue": "={{ $json.promptContenido }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              }
+            },
+            {
+              "id": "condition3",
+              "leftValue": "={{ $json.callbackUrl }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "d3e1b4c2-af9e-6g5f-1e2d-3c5g7b9d1f3g",
+      "name": "Validate Input Data",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "model": "gpt-4-turbo-preview",
+        "messages": {
+          "messageType": "multipleMessages",
+          "values": [
+            {
+              "role": "system",
+              "content": "Eres un especialista en creación de contenido para videos educativos y de entretenimiento. Tu tarea es generar contenido único, atractivo y profesional en español.\n\nINSTRUCCIONES IMPORTANTES:\n1. El tema generado DEBE ser completamente único y diferente a los temas anteriores proporcionados\n2. Todo el contenido debe estar en español\n3. El guión debe ser conversacional y atractivo\n4. El contenido de LinkedIn debe ser profesional\n5. El tweet debe ser conciso y llamativo\n6. La descripción debe ser informativa y optimizada para SEO\n\nFormato de respuesta requerido (JSON válido):\n{\n  \"titulo\": \"Título atractivo del video\",\n  \"tema\": \"Tema específico del video\",\n  \"guion\": \"Guión detallado para el video con introducción, desarrollo y conclusión\",\n  \"textoLinkedin\": \"Post profesional para LinkedIn con hashtags relevantes\",\n  \"tweet\": \"Tweet atractivo máximo 280 caracteres con emojis\",\n  \"descripcion\": \"Descripción detallada del video para plataformas con keywords SEO\"\n}"
+            },
+            {
+              "role": "user",
+              "content": "PROMPT BASE:\nNombre: {{ $json.promptNombre }}\nDescripción: {{ $json.promptDescripcion }}\nContenido: {{ $json.promptContenido }}\nCategoría: {{ $json.categoriaNombre }}\n\nTEMAS A EVITAR ({{ $json.totalTemasAnteriores }} temas anteriores):\n{{ $json.ultimosTemasPublicados.join(\", \") }}\n\nGenera contenido completamente original y diferente a los temas anteriores listados. Asegúrate de que el tema sea único y no se repita.\n\nResponde ÚNICAMENTE con el JSON solicitado, sin texto adicional:"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 2000,
+          "topP": 1,
+          "frequencyPenalty": 0.5,
+          "presencePenalty": 0.3
+        }
+      },
+      "id": "e4f2c5d3-b0af-7h6g-2f3e-4d6h8c0e2g4h",
+      "name": "Generate Content with OpenAI",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 2,
+      "position": [900, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar y validar la respuesta de OpenAI\nconst items = $input.all();\nconst inputData = items[0].json;\n\ntry {\n  // Extraer el contenido JSON de la respuesta de OpenAI\n  let aiResponse = inputData.choices[0].message.content.trim();\n  \n  // Limpiar la respuesta si tiene markdown o texto extra\n  if (aiResponse.startsWith('```json')) {\n    aiResponse = aiResponse.replace(/```json\\n?/, '').replace(/\\n?```$/, '');\n  }\n  if (aiResponse.startsWith('```')) {\n    aiResponse = aiResponse.replace(/```\\n?/, '').replace(/\\n?```$/, '');\n  }\n  \n  // Parsear el JSON\n  const generatedContent = JSON.parse(aiResponse);\n  \n  // Validar que todos los campos requeridos estén presentes\n  const requiredFields = ['titulo', 'tema', 'guion', 'textoLinkedin', 'tweet', 'descripcion'];\n  const missingFields = requiredFields.filter(field => !generatedContent[field] || generatedContent[field].trim() === '');\n  \n  if (missingFields.length > 0) {\n    throw new Error(`Campos faltantes en el contenido generado: ${missingFields.join(', ')}`);\n  }\n  \n  // Verificar que el tema no esté en la lista de temas anteriores\n  const ultimosTemasPublicados = $node['Extract and Structure Data'].json.ultimosTemasPublicados || [];\n  const temaGenerado = generatedContent.tema.toLowerCase().trim();\n  \n  const temaExiste = ultimosTemasPublicados.some(tema => \n    tema.toLowerCase().includes(temaGenerado) || temaGenerado.includes(tema.toLowerCase())\n  );\n  \n  if (temaExiste) {\n    throw new Error(`El tema generado \"${generatedContent.tema}\" es muy similar a un tema anterior. Se requiere mayor originalidad.`);\n  }\n  \n  // Preparar la respuesta exitosa\n  const responseData = {\n    videoId: $node['Extract and Structure Data'].json.videoId,\n    success: true,\n    content: {\n      titulo: generatedContent.titulo.trim(),\n      tema: generatedContent.tema.trim(),\n      guion: generatedContent.guion.trim(),\n      textoLinkedin: generatedContent.textoLinkedin.trim(),\n      tweet: generatedContent.tweet.trim(),\n      descripcion: generatedContent.descripcion.trim()\n    },\n    metadata: {\n      processedAt: new Date().toISOString(),\n      promptUsed: $node['Extract and Structure Data'].json.promptNombre,\n      temasEvitados: ultimosTemasPublicados,\n      totalTemasAnteriores: $node['Extract and Structure Data'].json.totalTemasAnteriores || 0\n    }\n  };\n  \n  return [{ json: responseData }];\n  \n} catch (error) {\n  console.error('Error procesando contenido de IA:', error);\n  \n  // Preparar respuesta de error\n  const errorResponse = {\n    videoId: $node['Extract and Structure Data'].json.videoId,\n    success: false,\n    error: `Error procesando contenido generado: ${error.message}`,\n    timestamp: new Date().toISOString(),\n    metadata: {\n      originalError: error.toString(),\n      promptUsed: $node['Extract and Structure Data'].json.promptNombre\n    }\n  };\n  \n  return [{ json: errorResponse }];\n}"
+      },
+      "id": "f5g3d6e4-c1b0-8i7h-3g4f-5e7i9d1f3h5i",
+      "name": "Process AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "g6h4e7f5-d2c1-9j8i-4h5g-6f8j0e2g4i6j",
+      "name": "Check Processing Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.callbackUrl || $node['Extract and Structure Data'].json.callbackUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Workflow-Source",
+              "value": "n8n-content-generation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": []
+        },
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000,
+          "retry": {
+            "enabled": true,
+            "maxTries": 3,
+            "waitBetween": 2000
+          }
+        }
+      },
+      "id": "h7i5f8g6-e3d2-0k9j-5i6h-7g9k1f3h5j7k",
+      "name": "Send Success Callback",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1560, 120]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.callbackUrl || $node['Extract and Structure Data'].json.callbackUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Workflow-Source",
+              "value": "n8n-content-generation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": []
+        },
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000,
+          "retry": {
+            "enabled": true,
+            "maxTries": 3,
+            "waitBetween": 2000
+          }
+        }
+      },
+      "id": "i8j6g9h7-f4e3-1l0k-6j7i-8h0l2g4i6k8l",
+      "name": "Send Error Callback",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1560, 280]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "videoId",
+              "name": "videoId",
+              "value": "={{ $node['Extract and Structure Data'].json.videoId }}",
+              "type": "string"
+            },
+            {
+              "id": "error",
+              "name": "error",
+              "value": "Datos de entrada inválidos o faltantes",
+              "type": "string"
+            },
+            {
+              "id": "timestamp",
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            },
+            {
+              "id": "success",
+              "name": "success",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "id": "j9k7h0i8-g5f4-2m1l-7k8j-9i1m3h5j7l9m",
+      "name": "Create Validation Error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [900, 380]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $node['Extract and Structure Data'].json.callbackUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Workflow-Source",
+              "value": "n8n-content-generation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": []
+        },
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000,
+          "retry": {
+            "enabled": true,
+            "maxTries": 2,
+            "waitBetween": 1000
+          }
+        }
+      },
+      "id": "k0l8i1j9-h6g5-3n2m-8l9k-0j2n4i6k8m0n",
+      "name": "Send Validation Error Callback",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1120, 380]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ received: true, videoId: $node['Extract and Structure Data'].json.videoId, status: 'processing', timestamp: new Date().toISOString() }) }}"
+      },
+      "id": "l1m9j2k0-i7h6-4o3n-9m0l-1k3o5j7l9n1o",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 2,
+      "position": [1780, 200]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract and Structure Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract and Structure Data": {
+      "main": [
+        [
+          {
+            "node": "Validate Input Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Input Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Content with OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Validation Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Content with OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Process AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process AI Response": {
+      "main": [
+        [
+          {
+            "node": "Check Processing Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Processing Success": {
+      "main": [
+        [
+          {
+            "node": "Send Success Callback",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Error Callback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Validation Error": {
+      "main": [
+        [
+          {
+            "node": "Send Validation Error Callback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Success Callback": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Error Callback": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Validation Error Callback": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": {
+      "enabled": false
+    }
+  },
+  "staticData": null,
+  "meta": {
+    "templateCreatedBy": "Content Generation System",
+    "description": "Workflow para generar contenido de video usando IA con validación de unicidad y manejo robusto de errores"
+  },
+  "pinData": {},
+  "versionId": "1.0.0",
+  "triggerCount": 1,
+  "tags": []
+}

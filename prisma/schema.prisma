@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("user")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model Categoria {
+  id       String   @id @default(cuid())
+  nombre   String   @unique
+  color    String?  // Para diferenciar visualmente las categorías
+  activa   Boolean  @default(true)
+  creadoEn DateTime @default(now()) @map("creado_en")
+  prompts  Prompt[]
+
+  @@map("categorias")
+}
+
+model Prompt {
+  id              String     @id @default(cuid())
+  nombre          String
+  descripcion     String?
+  contenidoPrompt String     @map("contenido_prompt")
+  categoriaId     String?    @map("categoria_id")
+  activo          Boolean    @default(true)
+  creadoEn        DateTime   @default(now()) @map("creado_en")
+  categoria       Categoria? @relation(fields: [categoriaId], references: [id])
+  videos          Video[]
+
+  @@map("prompts")
+}
+
+model Video {
+  id            String    @id @default(cuid())
+  promptId      String?   @map("prompt_id")
+  titulo        String?
+  tema          String?
+  guion         String?
+  textoLinkedin String?   @map("texto_linkedin")
+  tweet         String?
+  descripcion   String?
+  estado        String    @default("borrador")
+  urlVideo      String?   @map("url_video")
+  urlHeygen     String?   @map("url_heygen")
+  urlYoutube    String?   @map("url_youtube")
+  urlLinkedin   String?   @map("url_linkedin")
+  urlTwitter    String?   @map("url_twitter")
+  creadoEn      DateTime  @default(now()) @map("creado_en")
+  aprobadoEn    DateTime? @map("aprobado_en")
+  publicadoEn   DateTime? @map("publicado_en")
+  programadoPara DateTime? @map("programado_para")
+  prompt        Prompt?   @relation(fields: [promptId], references: [id])
+
+  @@map("videos")
+}
+
+model WorkflowLog {
+  id       String   @id @default(cuid())
+  videoId  String   @map("video_id")
+  accion   String   @map("action")
+  detalles Json?    @map("details")
+  creadoEn DateTime @default(now()) @map("creado_en")
+
+  @@map("workflow_logs")
+}
