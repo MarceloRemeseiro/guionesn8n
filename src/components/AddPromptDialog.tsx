@@ -94,7 +94,7 @@ export default function AddPromptDialog() {
           Crear Prompt
         </CustomButton>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-hidden flex flex-col">
+      <DialogContent className="!max-w-[90vw] !w-[90vw] !h-[80vh] max-h-[80vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle>Crear Nuevo Prompt</DialogTitle>
           <DialogDescription>
@@ -169,7 +169,7 @@ export default function AddPromptDialog() {
                   <FormControl>
                     <Textarea 
                       placeholder="Escribe aquí el prompt completo que se enviará a la IA..."
-                      className="min-h-[120px]"
+                      className="min-h-[300px] resize-none"
                       {...field} 
                     />
                   </FormControl>

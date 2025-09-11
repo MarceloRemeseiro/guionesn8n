@@ -95,7 +95,7 @@ export default function EditPromptDialog({ prompt, children }: EditPromptDialogP
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-hidden flex flex-col">
+      <DialogContent className="!max-w-[90vw] !w-[90vw] !h-[80vh] max-h-[80vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle>Editar Prompt</DialogTitle>
           <DialogDescription>
@@ -170,7 +170,7 @@ export default function EditPromptDialog({ prompt, children }: EditPromptDialogP
                   <FormControl>
                     <Textarea 
                       placeholder="Escribe aquí el prompt completo que se enviará a la IA..."
-                      className="min-h-[120px]"
+                      className="min-h-[300px] resize-none"
                       {...field} 
                     />
                   </FormControl>

@@ -417,6 +417,44 @@ export default function VideosList() {
                               />
                             </div>
                           )}
+                          
+                          {video.estado === 'error' && (
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">
+                                <AlertCircle className="h-4 w-4" />
+                                <span>
+                                  <strong>Error en procesamiento:</strong> Este video falló durante el procesamiento o publicación.
+                                </span>
+                              </div>
+                              <div className="flex gap-2">
+                                <ViewContentButton video={video} readOnly={true} />
+                                <CustomButton
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={async () => {
+                                    try {
+                                      const response = await fetch(`/api/videos/${video.id}/retry`, {
+                                        method: 'POST'
+                                      })
+                                      if (response.ok) {
+                                        // La página se actualizará automáticamente por el polling
+                                      }
+                                    } catch (error) {
+                                      console.error('Error reintentando video:', error)
+                                    }
+                                  }}
+                                >
+                                  Reintentar
+                                </CustomButton>
+                                <CancelVideoButton 
+                                  videoId={video.id} 
+                                  buttonText="Eliminar"
+                                  loadingText="Eliminando..."
+                                  confirmMessage="¿Eliminar este video con error? Esta acción no se puede deshacer."
+                                />
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                       

@@ -6,7 +6,7 @@ import { CustomButton } from '@/components/ui/custom-button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Edit, Trash2, Copy, Video } from 'lucide-react'
+import { Edit, Trash2, Video } from 'lucide-react'
 import { PromptData } from '@/types'
 import AddPromptDialog from './AddPromptDialog'
 import EditPromptDialog from './EditPromptDialog'
@@ -51,30 +51,6 @@ export default function PromptsManager({ prompts }: PromptsManagerProps) {
     setDeleteDialogOpen(true)
   }
 
-  const duplicatePrompt = async (prompt: PromptData) => {
-    try {
-      const response = await fetch('/api/prompts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nombre: `${prompt.nombre} (Copia)`,
-          descripcion: prompt.descripcion,
-          categoria: prompt.categoria,
-          contenidoPrompt: prompt.contenidoPrompt,
-        }),
-      })
-
-      if (response.ok) {
-        router.refresh()
-      } else {
-        console.error('Error al duplicar prompt')
-      }
-    } catch (error) {
-      console.error('Error:', error)
-    }
-  }
 
   return (
     <div className="space-y-6">
@@ -138,15 +114,6 @@ export default function PromptsManager({ prompts }: PromptsManagerProps) {
                       Editar
                     </CustomButton>
                   </EditPromptDialog>
-
-                  <CustomButton
-                    size="sm"
-                    variant="neutral"
-                    onClick={() => duplicatePrompt(prompt)}
-                  >
-                    <Copy className="h-4 w-4 mr-2" />
-                    Duplicar
-                  </CustomButton>
 
                   <CustomButton
                     size="sm"
