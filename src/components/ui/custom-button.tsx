@@ -37,7 +37,7 @@ const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
     return (
       <ShadcnButton
         className={className}
-        variant={variant as any}
+        variant={variant as 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost'}
         size={size}
         asChild={asChild}
         ref={ref}

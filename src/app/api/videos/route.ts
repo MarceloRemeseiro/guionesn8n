@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit
 
     // Construir filtros donde
-    const whereClause: any = {}
+    const whereClause: Record<string, unknown> = {}
 
     // Filtro para ocultar publicados
     if (hidePublished) {

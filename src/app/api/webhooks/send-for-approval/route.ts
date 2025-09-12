@@ -48,17 +48,6 @@ export async function POST(request: NextRequest) {
       data: { estado: 'esperando_aprobacion' }
     })
 
-    // Limpiar y validar contenido antes de enviar a n8n
-    const cleanString = (str: string | null) => {
-      if (!str) return ''
-      return str
-        .replace(/[\r\n\t]+/g, ' ')    // Reemplazar saltos de línea y tabs con espacios
-        .replace(/\s+/g, ' ')          // Múltiples espacios → un espacio
-        .replace(/"/g, '\\"')          // Escapar comillas dobles
-        .replace(/\\/g, '\\\\')        // Escapar backslashes
-        .replace(/[\x00-\x1F\x7F]/g, '') // Remover caracteres de control
-        .trim()
-    }
 
     // Preparar datos completos para enviar a n8n
     const approvalPayload = {

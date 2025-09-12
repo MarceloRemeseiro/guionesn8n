@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 
 // Variable para controlar que solo se ejecute una instancia
 let schedulerStarted = false
+let scheduledTask: cron.ScheduledTask | null = null
 
 export function startScheduler() {
   if (schedulerStarted) {
@@ -14,14 +15,13 @@ export function startScheduler() {
   schedulerStarted = true
 
   // Ejecutar cada minuto para verificar videos programados
-  cron.schedule('* * * * *', async () => {
+  scheduledTask = cron.schedule('* * * * *', async () => {
     try {
       await checkScheduledVideos()
     } catch (error) {
       console.error('❌ Error en scheduler:', error)
     }
   }, {
-    scheduled: true,
     timezone: "America/Mexico_City" // Ajusta según tu zona horaria
   })
 
@@ -82,7 +82,7 @@ async function checkScheduledVideos() {
   }
 }
 
-async function publishScheduledVideo(video: any) {
+async function publishScheduledVideo(video: { id: string; titulo?: string | null; estado: string; urlVideo?: string | null; programadoPara?: Date | null }) {
   console.log(`📺 Publicando video programado: ${video.titulo || video.id}`)
 
   // Verificar que el video sigue en estado programado (evitar race conditions)
@@ -142,7 +142,7 @@ async function publishScheduledVideo(video: any) {
 export function stopScheduler() {
   if (schedulerStarted) {
     console.log('🛑 Deteniendo scheduler...')
-    cron.destroy()
+    scheduledTask?.destroy()
     schedulerStarted = false
   }
 }

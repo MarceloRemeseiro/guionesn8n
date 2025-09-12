@@ -11,7 +11,7 @@ interface UsePollingOptions {
 export function usePolling(options: UsePollingOptions = {}) {
   const { interval = 5000, enabled = true } = options
   const router = useRouter()
-  const intervalRef = useRef<NodeJS.Timeout>()
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     if (!enabled) return

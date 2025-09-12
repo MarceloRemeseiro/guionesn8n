@@ -10,11 +10,11 @@ export async function POST(request: NextRequest) {
     console.log('🔔 RESPUESTA DE PUBLICACIÓN RECIBIDA - Payload:', JSON.stringify(payload, null, 2))
 
     // Extraer datos del payload
-    let videoId = payload.videoId || payload.body?.videoId
-    let success = payload.success !== false && payload.publicacionExitosa !== false
-    let videoUrl = payload.videoUrl || payload.body?.videoUrl
-    let plataformas = payload.plataformas || {}
-    let fechaPublicacion = payload.fechaPublicacion || new Date().toISOString()
+    const videoId = payload.videoId || payload.body?.videoId
+    const success = payload.success !== false && payload.publicacionExitosa !== false
+    const videoUrl = payload.videoUrl || payload.body?.videoUrl
+    const plataformas = payload.plataformas || {}
+    const fechaPublicacion = payload.fechaPublicacion || new Date().toISOString()
 
     console.log('🔍 Datos extraídos de publicación:', { 
       videoId, 

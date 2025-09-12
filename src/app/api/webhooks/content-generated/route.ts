@@ -10,11 +10,11 @@ export async function POST(request: NextRequest) {
     console.log('🔔 CALLBACK RECIBIDO - Payload:', JSON.stringify(payload, null, 2))
 
     // Manejar diferentes formatos de entrada
-    let videoId = payload.videoId || payload.body?.videoId
-    let success = payload.success !== false // default true
-    let content = payload.content || payload
-    let error = payload.error
-    let metadata = payload.metadata || {}
+    const videoId = payload.videoId || payload.body?.videoId
+    const success = payload.success !== false // default true
+    const content = payload.content || payload
+    const error = payload.error
+    const metadata = payload.metadata || {}
 
     console.log('🔍 Datos extraídos:', { videoId, success, content: !!content })
 

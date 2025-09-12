@@ -18,11 +18,11 @@ import { Video, Clock, CheckCircle, Upload, Share2, Eye, Send, Play, Loader2, Al
 interface VideoData {
   id: string
   titulo: string | null
-  tema?: string | null
-  guion?: string | null
-  textoLinkedin?: string | null
-  tweet?: string | null
-  descripcion?: string | null
+  tema: string | null
+  guion: string | null
+  textoLinkedin: string | null
+  tweet: string | null
+  descripcion: string | null
   estado: string
   urlVideo?: string | null
   urlHeygen?: string | null

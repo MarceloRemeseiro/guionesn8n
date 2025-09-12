@@ -10,11 +10,11 @@ export async function POST(request: NextRequest) {
     console.log('🔔 RESPUESTA DE APROBACIÓN RECIBIDA - Payload:', JSON.stringify(payload, null, 2))
 
     // Extraer datos del payload (manejar diferentes formatos)
-    let videoId = payload.videoId || payload.body?.videoId
-    let aprobado = payload.aprobado !== false && payload.approved !== false // default true si no se especifica
-    let comentarios = payload.comentarios || payload.comments || payload.feedback || ''
-    let aprobadoPor = payload.aprobadoPor || payload.approvedBy || 'reviewer@streamingpro.com'
-    let fechaRespuesta = payload.fechaRespuesta || new Date().toISOString()
+    const videoId = payload.videoId || payload.body?.videoId
+    const aprobado = payload.aprobado !== false && payload.approved !== false // default true si no se especifica
+    const comentarios = payload.comentarios || payload.comments || payload.feedback || ''
+    const aprobadoPor = payload.aprobadoPor || payload.approvedBy || 'reviewer@streamingpro.com'
+    const fechaRespuesta = payload.fechaRespuesta || new Date().toISOString()
 
     console.log('🔍 Datos extraídos de aprobación:', { 
       videoId, 
