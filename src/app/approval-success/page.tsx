@@ -1,11 +1,12 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckCircle, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-export default function ApprovalSuccessPage() {
+function ApprovalContent() {
   const searchParams = useSearchParams()
   const message = searchParams.get('message') || 'Acción completada exitosamente'
   const isApproval = message.includes('aprobado')
@@ -59,5 +60,17 @@ export default function ApprovalSuccessPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+export default function ApprovalSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <ApprovalContent />
+    </Suspense>
   )
 }
