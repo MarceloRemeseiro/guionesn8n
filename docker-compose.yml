@@ -7,7 +7,7 @@ services:
     container_name: videosn8n-app
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3030:3000"
     environment:
       # Database (External PostgreSQL)
       DATABASE_URL: ${DATABASE_URL}
