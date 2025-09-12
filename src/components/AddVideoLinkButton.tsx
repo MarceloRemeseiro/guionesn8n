@@ -214,7 +214,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
       </CustomButton>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="max-w-[95vw] sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-800 text-black dark:text-white">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Link className="h-5 w-5" />
@@ -234,7 +234,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
                 placeholder="https://ejemplo.com/video.mp4"
                 value={videoUrl}
                 onChange={(e) => setVideoUrl(e.target.value)}
-                className="w-full"
+                className="w-full bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                 required
                 disabled={isLoading}
               />
@@ -243,11 +243,11 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
               </p>
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-medium text-blue-900 mb-2">
+            <div className="bg-card border border-border rounded-lg p-4">
+              <h4 className="font-medium text-card-foreground mb-2">
                 📱 Redes sociales donde se publicará:
               </h4>
-              <div className="grid grid-cols-2 gap-2 text-sm text-blue-800">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
                   Instagram (Reel)
@@ -271,9 +271,9 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
               </div>
             </div>
 
-            <div className="border-t pt-4">
-              <h4 className="font-medium mb-4">Programar publicación (opcional)</h4>
-              <div className="grid grid-cols-2 gap-4">
+            <div className="border-t border-border pt-4">
+              <h4 className="font-medium mb-4 text-foreground">Programar publicación (opcional)</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="scheduledDate">Fecha</Label>
                   <Input
@@ -283,6 +283,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
                     onChange={(e) => setScheduledDate(e.target.value)}
                     min={new Date().toISOString().split('T')[0]}
                     disabled={isLoading}
+                    className="bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                   />
                 </div>
                 <div className="space-y-2">
@@ -293,17 +294,19 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
                     value={scheduledTime}
                     onChange={(e) => setScheduledTime(e.target.value)}
                     disabled={isLoading}
+                    className="bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-end gap-2">
+            <div className="flex flex-col sm:flex-row justify-end gap-2">
               <CustomButton 
                 type="button"
                 variant="neutral" 
                 onClick={() => setIsModalOpen(false)}
                 disabled={isLoading}
+                className="w-full sm:w-auto"
               >
                 <X className="h-4 w-4 mr-2" />
                 Cancelar
@@ -315,6 +318,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
                   variant="primary"
                   onClick={handleSchedulePublication}
                   disabled={isLoading || !videoUrl.trim()}
+                  className="w-full sm:w-auto"
                 >
                   {isLoading ? (
                     <>
@@ -335,6 +339,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
                 variant="success"
                 onClick={handlePublishNow}
                 disabled={isLoading || !videoUrl.trim()}
+                className="w-full sm:w-auto"
               >
                 {isLoading ? (
                   <>

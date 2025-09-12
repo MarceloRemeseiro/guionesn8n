@@ -96,7 +96,7 @@ export default function EditScheduleButton({
       </CustomButton>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[400px]">
+        <DialogContent className="max-w-[95vw] sm:max-w-[400px] max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-800 text-black dark:text-white">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Calendar className="h-5 w-5" />
@@ -108,14 +108,23 @@ export default function EditScheduleButton({
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-              <p className="text-sm text-blue-800">
-                <strong>Programación actual:</strong><br />
-                {currentDate.toLocaleString()}
+            <div className="bg-card border border-border rounded-lg p-4">
+              <h4 className="font-medium text-card-foreground mb-2">
+                📅 Programación actual:
+              </h4>
+              <p className="text-sm text-muted-foreground">
+                {currentDate.toLocaleString('es-ES', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long', 
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="newDate">Nueva Fecha</Label>
                 <Input
@@ -126,6 +135,7 @@ export default function EditScheduleButton({
                   min={new Date().toISOString().split('T')[0]}
                   disabled={isLoading}
                   required
+                  className="bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                 />
               </div>
               <div className="space-y-2">
@@ -137,16 +147,18 @@ export default function EditScheduleButton({
                   onChange={(e) => setNewTime(e.target.value)}
                   disabled={isLoading}
                   required
+                  className="bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end gap-2">
+            <div className="flex flex-col sm:flex-row justify-end gap-2">
               <CustomButton 
                 type="button"
                 variant="neutral" 
                 onClick={() => setIsModalOpen(false)}
                 disabled={isLoading}
+                className="w-full sm:w-auto"
               >
                 <X className="h-4 w-4 mr-2" />
                 Cancelar
@@ -155,6 +167,7 @@ export default function EditScheduleButton({
                 type="submit"
                 variant="primary"
                 disabled={isLoading || !newDate || !newTime}
+                className="w-full sm:w-auto"
               >
                 {isLoading ? (
                   <>

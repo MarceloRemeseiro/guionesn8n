@@ -17,7 +17,7 @@ export function initializeServices() {
   }
 }
 
-// Auto-ejecutar cuando se importa el archivo solo en producción
-if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
+// Auto-ejecutar cuando se importa el archivo (tanto en desarrollo como producción)
+if (typeof window === 'undefined') {
   initializeServices()
 }
