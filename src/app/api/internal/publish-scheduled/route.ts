@@ -18,14 +18,6 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Validar que la API key esté configurada
-    if (!process.env.BLOTATO_API_KEY) {
-      console.error('❌ BLOTATO_API_KEY no está configurada')
-      return NextResponse.json({ 
-        error: 'Configuración de API faltante' 
-      }, { status: 500 })
-    }
-
     // Buscar el video con su contenido completo
     const video = await prisma.video.findUnique({
       where: { id: videoId },
@@ -72,7 +64,7 @@ export async function POST(request: NextRequest) {
         .trim()
     }
 
-    // Preparar payload completo para n8n - EXACTAMENTE igual que el endpoint manual
+    // Preparar payload simplificado para n8n (configuración BLOTATO está en n8n)
     const publishPayload = {
       videoId: video.id,
       videoUrl: videoUrl,
@@ -83,17 +75,6 @@ export async function POST(request: NextRequest) {
         descripcion: cleanString(video.descripcion),
         tweet: cleanString(video.tweet),
         textoLinkedin: cleanString(video.textoLinkedin)
-      },
-      // Configuración BLOTATO
-      blotato: {
-        api_key: process.env.BLOTATO_API_KEY,
-        accounts: {
-          instagram_id: process.env.BLOTATO_INSTAGRAM_ID || '4612',
-          youtube_id: process.env.BLOTATO_YOUTUBE_ID || '3454',
-          tiktok_id: process.env.BLOTATO_TIKTOK_ID || '5678',
-          twitter_id: process.env.BLOTATO_TWITTER_ID || '2583',
-          linkedin_id: process.env.BLOTATO_LINKEDIN_ID || '2613'
-        }
       },
       metadata: {
         promptUsado: video.prompt?.nombre || 'N/A',
@@ -113,9 +94,9 @@ export async function POST(request: NextRequest) {
     console.log('   📝 Título:', video.titulo)
     console.log('   🔗 URL Video:', videoUrl)
     console.log('   🤖 Publicador: sistema-scheduler')
-    console.log('   🎯 Plataformas: Instagram, YouTube, TikTok, Twitter/X, LinkedIn')
+    console.log('   🎯 Configuración BLOTATO: Manejada por n8n')
     console.log('')
-    console.log('📦 Payload completo:', JSON.stringify(publishPayload, null, 2))
+    console.log('📦 Payload simplificado:', JSON.stringify(publishPayload, null, 2))
 
     // Validar que el JSON sea válido antes de enviar
     let jsonBody: string

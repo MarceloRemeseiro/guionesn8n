@@ -22,13 +22,6 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Validar que la API key esté configurada
-    if (!process.env.BLOTATO_API_KEY) {
-      console.error('❌ BLOTATO_API_KEY no está configurada')
-      return NextResponse.json({ 
-        error: 'Configuración de API faltante' 
-      }, { status: 500 })
-    }
 
     // Buscar el video con su contenido completo
     const video = await prisma.video.findUnique({
@@ -77,7 +70,7 @@ export async function POST(request: NextRequest) {
         .trim()
     }
 
-    // Preparar payload completo para n8n con TODOS los datos que necesita BLOTATO
+    // Preparar payload simplificado para n8n (configuración BLOTATO está en n8n)
     const publishPayload = {
       videoId: video.id,
       videoUrl: videoUrl,
@@ -88,17 +81,6 @@ export async function POST(request: NextRequest) {
         descripcion: cleanString(video.descripcion),
         tweet: cleanString(video.tweet),
         textoLinkedin: cleanString(video.textoLinkedin)
-      },
-      // Configuración BLOTATO - esto debería venir de configuración/env
-      blotato: {
-        api_key: process.env.BLOTATO_API_KEY,
-        accounts: {
-          instagram_id: process.env.BLOTATO_INSTAGRAM_ID || '4612',
-          youtube_id: process.env.BLOTATO_YOUTUBE_ID || '3454',
-          tiktok_id: process.env.BLOTATO_TIKTOK_ID || '5678',
-          twitter_id: process.env.BLOTATO_TWITTER_ID || '2583',
-          linkedin_id: process.env.BLOTATO_LINKEDIN_ID || '2613'
-        }
       },
       metadata: {
         promptUsado: video.prompt?.nombre || 'N/A',
