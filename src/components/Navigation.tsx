@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { CustomButton } from '@/components/ui/custom-button'
 import { Home, Library, Palette, LogOut } from 'lucide-react'
 import { signOut } from 'next-auth/react'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export default function Navigation() {
   const pathname = usePathname()
@@ -48,6 +49,8 @@ export default function Navigation() {
           </CustomButton>
         )
       })}
+      
+      <ThemeToggle />
       
       <CustomButton
         variant="neutral"

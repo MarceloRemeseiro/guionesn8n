@@ -66,7 +66,7 @@ export default function PromptsManager({ prompts }: PromptsManagerProps) {
 
       <div className="grid gap-4">
         {prompts.map((prompt) => (
-          <Card key={prompt.id} className="hover:shadow-md transition-shadow">
+          <Card key={prompt.id} className="hover:shadow-md transition-shadow bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600">
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex-1">

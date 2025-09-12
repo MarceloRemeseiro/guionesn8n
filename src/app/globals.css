@@ -46,70 +46,70 @@
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.084 0.006 265.75);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.084 0.006 265.75);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.084 0.006 265.75);
+  --primary: oklch(0.204 0.013 265.75);
+  --primary-foreground: oklch(0.98 0.003 265.75);
+  --secondary: oklch(0.966 0.006 265.75);
+  --secondary-foreground: oklch(0.204 0.013 265.75);
+  --muted: oklch(0.966 0.006 265.75);
+  --muted-foreground: oklch(0.525 0.013 265.75);
+  --accent: oklch(0.966 0.006 265.75);
+  --accent-foreground: oklch(0.204 0.013 265.75);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.898 0.013 265.75);
+  --input: oklch(0.898 0.013 265.75);
+  --ring: oklch(0.639 0.025 265.75);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.98 0.003 265.75);
+  --sidebar-foreground: oklch(0.084 0.006 265.75);
+  --sidebar-primary: oklch(0.204 0.013 265.75);
+  --sidebar-primary-foreground: oklch(0.98 0.003 265.75);
+  --sidebar-accent: oklch(0.966 0.006 265.75);
+  --sidebar-accent-foreground: oklch(0.204 0.013 265.75);
+  --sidebar-border: oklch(0.898 0.013 265.75);
+  --sidebar-ring: oklch(0.639 0.025 265.75);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: oklch(0.084 0.006 265.75);
+  --foreground: oklch(0.98 0.003 265.75);
+  --card: oklch(0.186 0.01 265.75);
+  --card-foreground: oklch(0.98 0.003 265.75);
+  --popover: oklch(0.186 0.01 265.75);
+  --popover-foreground: oklch(0.98 0.003 265.75);
+  --primary: oklch(0.898 0.013 265.75);
+  --primary-foreground: oklch(0.137 0.008 265.75);
+  --secondary: oklch(0.186 0.01 265.75);
+  --secondary-foreground: oklch(0.98 0.003 265.75);
+  --muted: oklch(0.186 0.01 265.75);
+  --muted-foreground: oklch(0.639 0.025 265.75);
+  --accent: oklch(0.186 0.01 265.75);
+  --accent-foreground: oklch(0.98 0.003 265.75);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(0.186 0.01 265.75);
+  --input: oklch(0.186 0.01 265.75);
+  --ring: oklch(0.525 0.013 265.75);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar: oklch(0.137 0.008 265.75);
+  --sidebar-foreground: oklch(0.98 0.003 265.75);
   --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-primary-foreground: oklch(0.98 0.003 265.75);
+  --sidebar-accent: oklch(0.186 0.01 265.75);
+  --sidebar-accent-foreground: oklch(0.98 0.003 265.75);
+  --sidebar-border: oklch(0.186 0.01 265.75);
+  --sidebar-ring: oklch(0.525 0.013 265.75);
 }
 
 @layer base {
@@ -122,99 +122,6 @@
 }
 
 @layer utilities {
-  /* Gradientes personalizados */
-  .bg-gradient-to-br {
-    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-  }
-  
-  .bg-gradient-to-r {
-    background-image: linear-gradient(to right, var(--tw-gradient-stops));
-  }
-  
-  .from-slate-50 {
-    --tw-gradient-from: #f8fafc var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(248 250 252 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .via-blue-50 {
-    --tw-gradient-to: rgb(239 246 255 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), #eff6ff var(--tw-gradient-via-position), var(--tw-gradient-to);
-  }
-  
-  .to-purple-50 {
-    --tw-gradient-to: #faf5ff var(--tw-gradient-to-position);
-  }
-  
-  .from-blue-600 {
-    --tw-gradient-from: #2563eb var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(37 99 235 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .to-purple-600 {
-    --tw-gradient-to: #9333ea var(--tw-gradient-to-position);
-  }
-  
-  .from-blue-700 {
-    --tw-gradient-from: #1d4ed8 var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(29 78 216 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .to-purple-700 {
-    --tw-gradient-to: #7c3aed var(--tw-gradient-to-position);
-  }
-  
-  .from-green-600 {
-    --tw-gradient-from: #16a34a var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(22 163 74 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .to-emerald-600 {
-    --tw-gradient-to: #059669 var(--tw-gradient-to-position);
-  }
-  
-  .from-green-700 {
-    --tw-gradient-from: #15803d var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(21 128 61 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .to-emerald-700 {
-    --tw-gradient-to: #047857 var(--tw-gradient-to-position);
-  }
-
-  /* Estilos específicos para botón Nueva Categoría */
-  .bg-gradient-to-r.from-green-600.to-emerald-600,
-  button.bg-gradient-to-r.from-green-600.to-emerald-600 {
-    background: linear-gradient(to right, #16a34a, #059669) !important;
-    color: white !important;
-    border: none !important;
-  }
-  
-  .bg-gradient-to-r.from-green-600.to-emerald-600:hover,
-  .hover\:from-green-700.hover\:to-emerald-700:hover,
-  button.bg-gradient-to-r.from-green-600.to-emerald-600:hover {
-    background: linear-gradient(to right, #15803d, #047857) !important;
-    color: white !important;
-    border: none !important;
-  }
-
-  /* Botones estandarizados */
-  .bg-gradient-to-r.from-blue-600.to-purple-600 {
-    background: linear-gradient(to right, #2563eb, #9333ea) !important;
-    color: white !important;
-    border: none !important;
-  }
-  
-  .bg-gradient-to-r.from-blue-600.to-purple-600:hover,
-  .hover\:from-blue-700.hover\:to-purple-700:hover {
-    background: linear-gradient(to right, #1d4ed8, #7c3aed) !important;
-    color: white !important;
-    border: none !important;
-  }
   
   /* Botón neutral */
   .custom-neutral-button {
@@ -237,36 +144,6 @@
   .dark .custom-neutral-button:hover {
     background-color: #4b5563 !important;
     color: #f9fafb !important;
-  }
-  
-  .from-green-500 {
-    --tw-gradient-from: #22c55e var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(34 197 94 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .to-emerald-500 {
-    --tw-gradient-to: #10b981 var(--tw-gradient-to-position);
-  }
-  
-  .from-orange-500 {
-    --tw-gradient-from: #f97316 var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(249 115 22 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .to-red-500 {
-    --tw-gradient-to: #ef4444 var(--tw-gradient-to-position);
-  }
-  
-  /* Background clip para texto con gradiente */
-  .bg-clip-text {
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-  
-  .text-transparent {
-    color: transparent;
   }
   
   /* Backdrop blur */
@@ -336,21 +213,6 @@
   .border-white\/20 { border-color: rgb(255 255 255 / 0.2); }
   .border-slate-800\/50 { border-color: rgb(30 41 59 / 0.5); }
   
-  /* Dark mode específico */
-  .dark\:from-slate-950:is(.dark *) {
-    --tw-gradient-from: #020617 var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(2 6 23 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  }
-  
-  .dark\:via-blue-950:is(.dark *) {
-    --tw-gradient-to: rgb(23 37 84 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), #172554 var(--tw-gradient-via-position), var(--tw-gradient-to);
-  }
-  
-  .dark\:to-purple-950:is(.dark *) {
-    --tw-gradient-to: #2e1065 var(--tw-gradient-to-position);
-  }
   
   /* Estilos específicos para botones - Override de shadcn */
   .bg-primary {
@@ -473,21 +335,4 @@
     border-color: #a7f3d0 !important;
   }
   
-  /* Botones con gradientes específicos - Override para que se vean */
-  .bg-gradient-to-r.from-blue-600.to-purple-600 {
-    background-image: linear-gradient(to right, #2563eb, #9333ea) !important;
-    color: white !important;
-    border: none !important;
-  }
-  
-  .bg-gradient-to-r.from-blue-600.to-purple-600:hover,
-  .hover\:from-blue-700.hover\:to-purple-700:hover {
-    background-image: linear-gradient(to right, #1d4ed8, #7c3aed) !important;
-  }
-  
-  /* Asegurar que los botones con clases custom sean visibles */
-  [class*="bg-gradient-to-r"] {
-    color: white !important;
-    border: none !important;
-  }
 }

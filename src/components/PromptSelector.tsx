@@ -50,9 +50,9 @@ export default function PromptSelector({ prompts }: PromptSelectorProps) {
   }
 
   return (
-    <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200 dark:from-blue-950/30 dark:to-purple-950/30 dark:border-blue-800">
+    <Card className="bg-slate-50 border-slate-200 dark:bg-slate-800 dark:border-slate-700">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-blue-900 dark:text-blue-100">
+        <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
           <Sparkles className="h-5 w-5" />
           Generar Nuevo Contenido
         </CardTitle>

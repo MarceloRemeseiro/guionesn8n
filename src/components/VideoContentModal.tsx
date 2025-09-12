@@ -85,7 +85,7 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="!max-w-[90vw] !w-[90vw] !h-[80vh] max-h-[80vh] overflow-y-auto">
+      <DialogContent className="!max-w-[90vw] !w-[90vw] !h-[80vh] max-h-[80vh] overflow-y-auto bg-white dark:bg-slate-800 text-black dark:text-white">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {readOnly ? (
@@ -108,8 +108,8 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
           </DialogDescription>
         </DialogHeader>
 
-        <Tabs defaultValue="content" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+        <Tabs defaultValue="content" className="w-full bg-white dark:bg-slate-800">
+          <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-slate-700">
             <TabsTrigger value="content" className="flex items-center gap-2">
               <Video className="h-4 w-4" />
               Contenido Principal
@@ -124,8 +124,8 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="content" className="space-y-4">
-            <Card>
+          <TabsContent value="content" className="space-y-4 bg-white dark:bg-slate-800">
+            <Card className="bg-white dark:bg-slate-700 border-gray-200 dark:border-slate-600">
               <CardHeader>
                 <CardTitle>Información Principal</CardTitle>
                 <CardDescription>
@@ -140,7 +140,7 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
                     value={formData.titulo}
                     onChange={readOnly ? undefined : (e) => handleInputChange('titulo', e.target.value)}
                     placeholder="Título del video"
-                    className="text-lg font-medium"
+                    className="text-lg font-medium bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                     readOnly={readOnly}
                   />
                 </div>
@@ -152,6 +152,7 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
                     value={formData.tema}
                     onChange={readOnly ? undefined : (e) => handleInputChange('tema', e.target.value)}
                     placeholder="Tema principal del video"
+                    className="bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                     readOnly={readOnly}
                   />
                 </div>
@@ -164,7 +165,7 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
                     onChange={readOnly ? undefined : (e) => handleInputChange('guion', e.target.value)}
                     placeholder="Guión completo del video"
                     rows={12}
-                    className="resize-y"
+                    className="resize-y bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                     readOnly={readOnly}
                   />
                 </div>
@@ -172,9 +173,9 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
             </Card>
           </TabsContent>
 
-          <TabsContent value="social" className="space-y-4">
+          <TabsContent value="social" className="space-y-4 bg-white dark:bg-slate-800">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card>
+              <Card className="bg-white dark:bg-slate-700 border-gray-200 dark:border-slate-600">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Linkedin className="h-4 w-4 text-blue-600" />
@@ -195,14 +196,14 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
                       onChange={readOnly ? undefined : (e) => handleInputChange('textoLinkedin', e.target.value)}
                       placeholder="Texto para LinkedIn..."
                       rows={8}
-                      className="resize-y"
+                      className="resize-y bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                       readOnly={readOnly}
                     />
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="bg-white dark:bg-slate-700 border-gray-200 dark:border-slate-600">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Twitter className="h-4 w-4 text-blue-400" />
@@ -224,11 +225,11 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
                       placeholder="Tweet..."
                       rows={5}
                       maxLength={280}
-                      className={`resize-y ${charCounts.tweet > 280 ? 'border-red-300' : ''}`}
+                      className={`resize-y bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500 ${charCounts.tweet > 280 ? 'border-destructive' : ''}`}
                       readOnly={readOnly}
                     />
                     {charCounts.tweet > 280 && (
-                      <p className="text-sm text-red-600">
+                      <p className="text-sm text-destructive">
                         El tweet excede el límite de 280 caracteres
                       </p>
                     )}
@@ -237,7 +238,7 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
               </Card>
             </div>
 
-            <Card>
+            <Card className="bg-white dark:bg-slate-700 border-gray-200 dark:border-slate-600">
               <CardHeader>
                 <CardTitle>Descripción</CardTitle>
                 <CardDescription>
@@ -255,7 +256,7 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
                     onChange={readOnly ? undefined : (e) => handleInputChange('descripcion', e.target.value)}
                     placeholder="Descripción del video..."
                     rows={6}
-                    className="resize-y"
+                    className="resize-y bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                     readOnly={readOnly}
                   />
                 </div>
@@ -263,8 +264,8 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
             </Card>
           </TabsContent>
 
-          <TabsContent value="preview" className="space-y-4">
-            <Card>
+          <TabsContent value="preview" className="space-y-4 bg-white dark:bg-slate-800">
+            <Card className="bg-white dark:bg-slate-700 border-gray-200 dark:border-slate-600">
               <CardHeader>
                 <CardTitle>Vista Previa del Contenido</CardTitle>
                 <CardDescription>
@@ -272,42 +273,42 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="border-l-4 border-blue-500 pl-4">
+                <div className="border-l-4 border-primary pl-4">
                   <h3 className="font-bold text-lg mb-2">{formData.titulo || 'Sin título'}</h3>
                   <p className="text-muted-foreground mb-4">{formData.tema || 'Sin tema'}</p>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-medium mb-2">Guión:</h4>
-                    <p className="whitespace-pre-wrap text-sm">
+                  <div className="bg-gray-50 dark:bg-slate-600 border border-gray-200 dark:border-slate-500 rounded-lg p-4">
+                    <h4 className="font-medium mb-2 text-gray-900 dark:text-white">Guión:</h4>
+                    <p className="whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-200">
                       {formData.guion || 'Sin guión'}
                     </p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="border border-blue-200 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-700 mb-2 flex items-center gap-2">
+                  <div className="border border-gray-200 dark:border-slate-500 bg-gray-50 dark:bg-slate-600 rounded-lg p-4">
+                    <h4 className="font-medium text-blue-600 dark:text-blue-400 mb-2 flex items-center gap-2">
                       <Linkedin className="h-4 w-4" />
                       LinkedIn
                     </h4>
-                    <p className="text-sm whitespace-pre-wrap">
+                    <p className="text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-200">
                       {formData.textoLinkedin || 'Sin contenido para LinkedIn'}
                     </p>
                   </div>
 
-                  <div className="border border-blue-100 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-500 mb-2 flex items-center gap-2">
+                  <div className="border border-gray-200 dark:border-slate-500 bg-gray-50 dark:bg-slate-600 rounded-lg p-4">
+                    <h4 className="font-medium text-blue-500 dark:text-blue-400 mb-2 flex items-center gap-2">
                       <Twitter className="h-4 w-4" />
                       Twitter/X
                     </h4>
-                    <p className="text-sm whitespace-pre-wrap">
+                    <p className="text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-200">
                       {formData.tweet || 'Sin tweet'}
                     </p>
                   </div>
                 </div>
 
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <h4 className="font-medium mb-2">Descripción:</h4>
-                  <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                <div className="bg-gray-50 dark:bg-slate-600 border border-gray-200 dark:border-slate-500 rounded-lg p-4">
+                  <h4 className="font-medium mb-2 text-gray-900 dark:text-white">Descripción:</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap">
                     {formData.descripcion || 'Sin descripción'}
                   </p>
                 </div>
@@ -316,7 +317,7 @@ export default function VideoContentModal({ video, isOpen, onClose, readOnly = f
           </TabsContent>
         </Tabs>
 
-        <div className="flex justify-end gap-2 pt-4 border-t">
+        <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-slate-600">
           <CustomButton 
             variant="neutral" 
             onClick={onClose}

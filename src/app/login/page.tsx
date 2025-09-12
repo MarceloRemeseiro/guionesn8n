@@ -39,10 +39,10 @@ export default function LoginPage() {
       <div className="w-full max-w-md mx-4">
         <Card className="backdrop-blur-sm bg-white/70 dark:bg-slate-900/70 border border-white/20 dark:border-slate-800/50 shadow-2xl">
           <CardHeader className="text-center pb-2">
-            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
+            <div className="mx-auto w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mb-4">
               <Video className="h-8 w-8 text-white" />
             </div>
-            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-bold text-slate-900 dark:text-slate-100">
               StreamingPro
             </CardTitle>
             <CardDescription className="text-lg">
@@ -89,7 +89,7 @@ export default function LoginPage() {
 
               <Button 
                 type="submit" 
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 h-12 text-base font-medium" 
+                className="w-full bg-slate-700 hover:bg-slate-800 text-white h-12 text-base font-medium" 
                 disabled={loading}
               >
                 {loading ? (

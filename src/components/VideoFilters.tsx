@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CustomButton } from '@/components/ui/custom-button'
 import { Badge } from '@/components/ui/badge'
-import { Filter, Calendar, Eye, EyeOff } from 'lucide-react'
+import { Video, Calendar, Eye, EyeOff } from 'lucide-react'
 
 interface VideoFiltersProps {
   onFiltersChange: (filters: VideoFilters) => void
@@ -48,63 +48,49 @@ export default function VideoFilters({ onFiltersChange, totalVideos, currentFilt
   const hasActiveFilters = filters.hidePublished || filters.todayOnly
 
   return (
-    <Card className="mb-6">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filtros de Videos
+    <Card className="mb-4 bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600">
+      <CardContent className="py-3">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-3">
             {totalVideos > 0 && (
-              <Badge variant="secondary" className="ml-2">
-                {totalVideos} video{totalVideos !== 1 ? 's' : ''}
-              </Badge>
+              <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
+                <Video className="h-4 w-4" />
+                <span className="font-medium">{totalVideos}</span>
+                <span>video{totalVideos !== 1 ? 's' : ''}</span>
+              </div>
             )}
-          </CardTitle>
+            
+            <div className="flex gap-2">
+              <CustomButton
+                size="sm"
+                variant={filters.hidePublished ? "primary" : "neutral"}
+                onClick={toggleHidePublished}
+              >
+                {filters.hidePublished ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}
+                {filters.hidePublished ? 'Mostrando sin publicados' : 'Ocultar publicados'}
+              </CustomButton>
+              
+              <CustomButton
+                size="sm"
+                variant={filters.todayOnly ? "primary" : "neutral"}
+                onClick={toggleTodayOnly}
+              >
+                <Calendar className="h-4 w-4 mr-2" />
+                {filters.todayOnly ? 'Solo videos de hoy' : 'Ver solo hoy'}
+              </CustomButton>
+            </div>
+          </div>
+          
           {hasActiveFilters && (
             <CustomButton
               size="sm"
               variant="neutral"
               onClick={clearFilters}
             >
-              Limpiar filtros
+              Ver todos
             </CustomButton>
           )}
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-wrap gap-3">
-          <CustomButton
-            size="sm"
-            variant={filters.hidePublished ? "primary" : "neutral"}
-            onClick={toggleHidePublished}
-          >
-            {filters.hidePublished ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}
-            {filters.hidePublished ? 'Publicados ocultos' : 'Ocultar publicados'}
-          </CustomButton>
-          
-          <CustomButton
-            size="sm"
-            variant={filters.todayOnly ? "primary" : "neutral"}
-            onClick={toggleTodayOnly}
-          >
-            <Calendar className="h-4 w-4 mr-2" />
-            {filters.todayOnly ? 'Solo de hoy' : 'Ver solo hoy'}
-          </CustomButton>
-        </div>
-        
-        {hasActiveFilters && (
-          <div className="mt-3 pt-3 border-t border-gray-200">
-            <div className="flex flex-wrap gap-2">
-              <span className="text-sm text-gray-600">Filtros activos:</span>
-              {filters.hidePublished && (
-                <Badge variant="secondary">Videos publicados ocultos</Badge>
-              )}
-              {filters.todayOnly && (
-                <Badge variant="secondary">Solo videos de hoy</Badge>
-              )}
-            </div>
-          </div>
-        )}
       </CardContent>
     </Card>
   )

@@ -64,7 +64,7 @@ export default function CategoriasManager({ categorias }: CategoriasManagerProps
 
       <div className="grid gap-4">
         {categorias.map((categoria) => (
-          <Card key={categoria.id} className="hover:shadow-md transition-shadow">
+          <Card key={categoria.id} className="hover:shadow-md transition-shadow bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600">
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex-1 flex items-center gap-3">

@@ -15,14 +15,19 @@ export async function POST(request: NextRequest) {
     const { videoId, videoUrl, isScheduled } = await request.json()
     console.log(`🚀 PUBLICACIÓN DE VIDEO ${isScheduled ? '(PROGRAMADA)' : '(INMEDIATA)'} iniciada para video:`, videoId)
     console.log('🔗 URL del video:', videoUrl)
-    if (isScheduled) {
-      console.log('📅 Era programación para:', video.programadoPara)
-    }
 
     if (!videoId || !videoUrl) {
       return NextResponse.json({ 
         error: 'videoId y videoUrl son requeridos' 
       }, { status: 400 })
+    }
+
+    // Validar que la API key esté configurada
+    if (!process.env.BLOTATO_API_KEY) {
+      console.error('❌ BLOTATO_API_KEY no está configurada')
+      return NextResponse.json({ 
+        error: 'Configuración de API faltante' 
+      }, { status: 500 })
     }
 
     // Buscar el video con su contenido completo
@@ -86,7 +91,7 @@ export async function POST(request: NextRequest) {
       },
       // Configuración BLOTATO - esto debería venir de configuración/env
       blotato: {
-        api_key: process.env.BLOTATO_API_KEY || 'blt_qUuRW2Iey6DqwHbBy6J5sHobFYXged6UYtKASySbmRQ=',
+        api_key: process.env.BLOTATO_API_KEY,
         accounts: {
           instagram_id: process.env.BLOTATO_INSTAGRAM_ID || '4612',
           youtube_id: process.env.BLOTATO_YOUTUBE_ID || '3454',

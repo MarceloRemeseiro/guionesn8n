@@ -94,14 +94,14 @@ export default function AddPromptDialog() {
           Crear Prompt
         </CustomButton>
       </DialogTrigger>
-      <DialogContent className="!max-w-[90vw] !w-[90vw] !h-[80vh] max-h-[80vh] overflow-hidden flex flex-col">
+      <DialogContent className="!max-w-[90vw] !w-[90vw] !h-[80vh] max-h-[80vh] overflow-hidden flex flex-col bg-white dark:bg-slate-800 text-black dark:text-white">
         <DialogHeader>
           <DialogTitle>Crear Nuevo Prompt</DialogTitle>
           <DialogDescription>
             Crea una nueva plantilla de prompt para generar contenido de video.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex-1 overflow-y-auto pr-2">
+        <div className="flex-1 overflow-y-auto pr-2 bg-white dark:bg-slate-800">
           <Form {...form}>
             <div className="space-y-4">
               <FormField
@@ -111,7 +111,7 @@ export default function AddPromptDialog() {
                 <FormItem>
                   <FormLabel>Nombre del Prompt</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ej: Tutorial Técnico - Streaming" {...field} />
+                    <Input placeholder="Ej: Tutorial Técnico - Streaming" className="bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -124,7 +124,7 @@ export default function AddPromptDialog() {
                 <FormItem>
                   <FormLabel>Descripción</FormLabel>
                   <FormControl>
-                    <Input placeholder="Breve descripción del prompt..." {...field} />
+                    <Input placeholder="Breve descripción del prompt..." className="bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -138,7 +138,7 @@ export default function AddPromptDialog() {
                   <FormLabel>Categoría</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500">
                         <SelectValue placeholder="Selecciona una categoría" />
                       </SelectTrigger>
                     </FormControl>
@@ -169,7 +169,7 @@ export default function AddPromptDialog() {
                   <FormControl>
                     <Textarea 
                       placeholder="Escribe aquí el prompt completo que se enviará a la IA..."
-                      className="min-h-[300px] resize-none"
+                      className="min-h-[300px] resize-none bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                       {...field} 
                     />
                   </FormControl>

@@ -16,7 +16,6 @@ import SendForApprovalButton from '@/components/SendForApprovalButton'
 import AddVideoLinkButton from '@/components/AddVideoLinkButton'
 import PublishVideoButton from '@/components/PublishVideoButton'
 import VideosList from '@/components/VideosList'
-import CleanupLogsButton from '@/components/CleanupLogsButton'
 import { Video, Clock, CheckCircle, Upload, Share2, Eye, Send, Play, Loader2, AlertCircle } from 'lucide-react'
 
 async function getPrompts() {
@@ -168,19 +167,19 @@ export default async function DashboardPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-950 dark:via-blue-950 dark:to-purple-950">
       {/* Header */}
       <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100">
                 StreamingPro
               </h1>
-              <p className="text-lg text-muted-foreground mt-1">
+              <p className="text-xs text-muted-foreground mt-0.5">
                 Video Creator Dashboard
               </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <Navigation />
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-medium">
+              <div className="w-6 h-6 bg-slate-700 rounded-full flex items-center justify-center text-white text-xs font-medium">
                 {session.user?.name?.[0] || 'U'}
               </div>
             </div>
@@ -191,20 +190,20 @@ export default async function DashboardPage() {
       <div className="container mx-auto px-4 py-8">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 dark:from-blue-950/50 dark:to-blue-900/50">
-            <CardContent className="p-6">
+          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 dark:from-slate-700/50 dark:to-slate-600/50 dark:border-slate-600">
+            <CardContent className="py-1 px-3">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-600 dark:text-blue-400 text-sm font-medium">Total Prompts</p>
                   <p className="text-2xl font-bold text-blue-900 dark:text-blue-100">{prompts.length}</p>
                 </div>
-                <Video className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                <Video className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200 dark:from-yellow-950/50 dark:to-yellow-900/50">
-            <CardContent className="p-6">
+          <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200 dark:from-slate-700/50 dark:to-slate-600/50 dark:border-slate-600">
+            <CardContent className="py-1 px-3">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-yellow-600 dark:text-yellow-400 text-sm font-medium">Videos en Proceso</p>
@@ -212,13 +211,13 @@ export default async function DashboardPage() {
                     {videoStats.enProceso}
                   </p>
                 </div>
-                <Clock className="h-8 w-8 text-yellow-600 dark:text-yellow-400" />
+                <Clock className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200 dark:from-indigo-950/50 dark:to-indigo-900/50">
-            <CardContent className="p-6">
+          <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 border-indigo-200 dark:from-slate-700/50 dark:to-slate-600/50 dark:border-slate-600">
+            <CardContent className="py-1 px-3">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-indigo-600 dark:text-indigo-400 text-sm font-medium">Videos Programados</p>
@@ -226,13 +225,13 @@ export default async function DashboardPage() {
                     {videoStats.programados}
                   </p>
                 </div>
-                <Clock className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+                <Clock className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 dark:from-green-950/50 dark:to-green-900/50">
-            <CardContent className="p-6">
+          <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 dark:from-slate-700/50 dark:to-slate-600/50 dark:border-slate-600">
+            <CardContent className="py-1 px-3">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-green-600 dark:text-green-400 text-sm font-medium">Videos Publicados</p>
@@ -240,7 +239,7 @@ export default async function DashboardPage() {
                     {videoStats.publicados}
                   </p>
                 </div>
-                <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
+                <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
             </CardContent>
           </Card>
@@ -253,7 +252,7 @@ export default async function DashboardPage() {
             <PromptSelector prompts={prompts} />
 
             {/* Prompts Management */}
-            <Card>
+            <Card className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-gray-200 dark:border-slate-600">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Video className="h-5 w-5" />
@@ -275,32 +274,11 @@ export default async function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* System Maintenance */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <AlertCircle className="h-5 w-5" />
-                  Mantenimiento
-                </CardTitle>
-                <CardDescription>
-                  Herramientas de limpieza y optimización
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <CleanupLogsButton />
-                  <div className="text-sm text-muted-foreground">
-                    <p>🧹 Limpia logs huérfanos y antiguos</p>
-                    <p>⚡ Optimiza el rendimiento de la base de datos</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
           {/* Right Column - Videos */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-gray-200 dark:border-slate-600">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Play className="h-5 w-5" />

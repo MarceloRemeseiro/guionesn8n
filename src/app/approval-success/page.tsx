@@ -16,8 +16,8 @@ export default function ApprovalSuccessPage() {
         <CardHeader className="text-center pb-2">
           <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
             isApproval 
-              ? 'bg-gradient-to-r from-green-500 to-emerald-500' 
-              : 'bg-gradient-to-r from-orange-500 to-red-500'
+              ? 'bg-green-600' 
+              : 'bg-orange-600'
           }`}>
             {isApproval ? (
               <CheckCircle className="h-8 w-8 text-white" />

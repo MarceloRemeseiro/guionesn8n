@@ -1,19 +1,21 @@
 'use client'
 
 import { forwardRef } from 'react'
-import { Button as ShadcnButton, ButtonProps } from '@/components/ui/button'
+import { Button as ShadcnButton } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-export interface CustomButtonProps extends ButtonProps {
+export interface CustomButtonProps extends React.ComponentProps<'button'> {
   variant?: 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'primary' | 'neutral' | 'success'
+  size?: 'default' | 'sm' | 'lg' | 'icon'
+  asChild?: boolean
 }
 
 const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
-  ({ className, variant = 'default', ...props }, ref) => {
+  ({ className, variant = 'default', size, asChild, ...props }, ref) => {
     const customVariants = {
-      primary: 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-none shadow-sm',
+      primary: 'bg-blue-600 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-700 text-white border-none shadow-sm',
       neutral: 'custom-neutral-button shadow-sm',
-      success: 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white border-none shadow-sm'
+      success: 'bg-green-600 dark:bg-green-700 hover:bg-green-700 dark:hover:bg-green-800 text-white border-none shadow-sm'
     }
 
     if (variant === 'primary' || variant === 'neutral' || variant === 'success') {
@@ -25,6 +27,8 @@ const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
           )}
           ref={ref}
           variant="outline" // Base variant para shadcn
+          size={size}
+          asChild={asChild}
           {...props}
         />
       )
@@ -34,6 +38,8 @@ const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
       <ShadcnButton
         className={className}
         variant={variant as any}
+        size={size}
+        asChild={asChild}
         ref={ref}
         {...props}
       />

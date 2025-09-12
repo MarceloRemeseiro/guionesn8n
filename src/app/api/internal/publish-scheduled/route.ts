@@ -18,6 +18,14 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
+    // Validar que la API key esté configurada
+    if (!process.env.BLOTATO_API_KEY) {
+      console.error('❌ BLOTATO_API_KEY no está configurada')
+      return NextResponse.json({ 
+        error: 'Configuración de API faltante' 
+      }, { status: 500 })
+    }
+
     // Buscar el video con su contenido completo
     const video = await prisma.video.findUnique({
       where: { id: videoId },
@@ -78,7 +86,7 @@ export async function POST(request: NextRequest) {
       },
       // Configuración BLOTATO
       blotato: {
-        api_key: process.env.BLOTATO_API_KEY || 'blt_qUuRW2Iey6DqwHbBy6J5sHobFYXged6UYtKASySbmRQ=',
+        api_key: process.env.BLOTATO_API_KEY,
         accounts: {
           instagram_id: process.env.BLOTATO_INSTAGRAM_ID || '4612',
           youtube_id: process.env.BLOTATO_YOUTUBE_ID || '3454',

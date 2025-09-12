@@ -15,9 +15,9 @@ import CancelScheduleButton from '@/components/CancelScheduleButton'
 import EditScheduleButton from '@/components/EditScheduleButton'
 import { Video, Clock, CheckCircle, Upload, Share2, Eye, Send, Play, Loader2, AlertCircle, Calendar } from 'lucide-react'
 
-interface Video {
+interface VideoData {
   id: string
-  titulo?: string | null
+  titulo: string | null
   tema?: string | null
   guion?: string | null
   textoLinkedin?: string | null
@@ -49,13 +49,13 @@ interface PaginationInfo {
 }
 
 interface VideosResponse {
-  videos: Video[]
+  videos: VideoData[]
   pagination: PaginationInfo
   filters: VideoFiltersType
 }
 
 export default function VideosList() {
-  const [videos, setVideos] = useState<Video[]>([])
+  const [videos, setVideos] = useState<VideoData[]>([])
   const [pagination, setPagination] = useState<PaginationInfo>({
     currentPage: 1,
     totalPages: 1,
@@ -259,10 +259,10 @@ export default function VideosList() {
       />
 
       {videos.length === 0 ? (
-        <Card>
+        <Card className="bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600">
           <CardContent className="py-8 text-center">
             <Play className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               {filters.hidePublished || filters.todayOnly 
                 ? 'No hay videos que coincidan con los filtros aplicados'
                 : 'No hay videos aún. ¡Crea tu primer video seleccionando un prompt!'
@@ -276,7 +276,7 @@ export default function VideosList() {
             {videos.map((video) => {
               const EstadoIcon = getEstadoIcon(video.estado)
               return (
-                <Card key={video.id} className="relative">
+                <Card key={video.id} className="relative bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600">
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
@@ -303,7 +303,7 @@ export default function VideosList() {
                   <CardContent>
                     <div className="flex flex-col gap-4">
                       {video.tema && (
-                        <p className="text-sm text-gray-600 line-clamp-2">
+                        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
                           <strong>Tema:</strong> {video.tema}
                         </p>
                       )}

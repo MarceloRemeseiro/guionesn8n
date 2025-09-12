@@ -80,14 +80,14 @@ export default function AddCategoriaDialog() {
           Nueva Categoría
         </CustomButton>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-hidden flex flex-col">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-hidden flex flex-col bg-white dark:bg-slate-800 text-black dark:text-white">
         <DialogHeader>
           <DialogTitle>Crear Nueva Categoría</DialogTitle>
           <DialogDescription>
             Crea una nueva categoría para organizar tus prompts.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex-1 overflow-y-auto pr-2">
+        <div className="flex-1 overflow-y-auto pr-2 bg-white dark:bg-slate-800">
           <Form {...form}>
             <div className="space-y-4">
               <FormField
@@ -97,7 +97,7 @@ export default function AddCategoriaDialog() {
                   <FormItem>
                     <FormLabel>Nombre de la Categoría</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ej: Tutoriales, Noticias, etc." {...field} />
+                      <Input placeholder="Ej: Tutoriales, Noticias, etc." className="bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -114,14 +114,14 @@ export default function AddCategoriaDialog() {
                         <Input 
                           placeholder="#6B7280" 
                           {...field} 
-                          className="font-mono"
+                          className="font-mono bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
                         />
                         <div className="flex flex-wrap gap-2">
                           {coloresPredefnidos.map((color) => (
                             <button
                               key={color}
                               type="button"
-                              className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-gray-500 transition-colors"
+                              className="w-8 h-8 rounded-full border-2 border-gray-300 dark:border-slate-500 hover:border-blue-500 dark:hover:border-blue-400 transition-colors"
                               style={{ backgroundColor: color }}
                               onClick={() => form.setValue('color', color)}
                               title={color}
