@@ -6,45 +6,48 @@ import { CustomButton } from '@/components/ui/custom-button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Upload, Loader2, CheckCircle, AlertCircle, Link, X, Calendar, Clock } from 'lucide-react'
+import { Upload, Loader2, CheckCircle, AlertCircle, Link, X, Calendar, Clock, Video } from 'lucide-react'
+import { transformHeyGenUrlToMp4 } from '@/lib/utils'
 
 interface AddVideoLinkButtonProps {
   videoId: string
   disabled?: boolean
 }
 
+type VideoInputType = 'url' | 'heygen'
+
 export default function AddVideoLinkButton({ videoId, disabled = false }: AddVideoLinkButtonProps) {
   const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [videoUrl, setVideoUrl] = useState('')
+  const [inputType, setInputType] = useState<VideoInputType>('url')
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [scheduledDate, setScheduledDate] = useState('')
   const [scheduledTime, setScheduledTime] = useState('')
 
   const handlePublishNow = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!videoUrl.trim()) {
-      alert('Por favor, ingresa la URL del video')
+      alert('Por favor, ingresa el contenido del video')
       return
     }
 
-    // Validación: acepta URLs normales o HTML de HeyGen
-    const isValidUrl = () => {
+    // Validación según el tipo de input
+    if (inputType === 'url') {
       try {
         new URL(videoUrl)
-        return true
       } catch {
-        // Verificar si es HTML de HeyGen
-        const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">[\s\S]*<\/a>/
-        return heygenPattern.test(videoUrl.trim())
+        alert('Por favor, ingresa una URL válida')
+        return
       }
-    }
-
-    if (!isValidUrl()) {
-      alert('Por favor, ingresa una URL válida o el código HTML de HeyGen')
-      return
+    } else {
+      const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">[\s\S]*<\/a>/
+      if (!heygenPattern.test(videoUrl.trim())) {
+        alert('Por favor, pega el código HTML completo de HeyGen')
+        return
+      }
     }
 
     if (!confirm('¿Estás seguro de que quieres publicar este video AHORA en todas las redes sociales?')) {
@@ -56,9 +59,9 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
 
   const handleSchedulePublication = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!videoUrl.trim()) {
-      alert('Por favor, ingresa la URL del video')
+      alert('Por favor, ingresa el contenido del video')
       return
     }
 
@@ -67,26 +70,25 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
       return
     }
 
-    // Validación: acepta URLs normales o HTML de HeyGen
-    const isValidUrl = () => {
+    // Validación según el tipo de input
+    if (inputType === 'url') {
       try {
         new URL(videoUrl)
-        return true
       } catch {
-        // Verificar si es HTML de HeyGen
-        const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">[\s\S]*<\/a>/
-        return heygenPattern.test(videoUrl.trim())
+        alert('Por favor, ingresa una URL válida')
+        return
       }
-    }
-
-    if (!isValidUrl()) {
-      alert('Por favor, ingresa una URL válida o el código HTML de HeyGen')
-      return
+    } else {
+      const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">[\s\S]*<\/a>/
+      if (!heygenPattern.test(videoUrl.trim())) {
+        alert('Por favor, pega el código HTML completo de HeyGen')
+        return
+      }
     }
 
     const scheduledDateTime = new Date(`${scheduledDate}T${scheduledTime}`)
     const now = new Date()
-    
+
     if (scheduledDateTime <= now) {
       alert('La fecha y hora programada debe ser en el futuro')
       return
@@ -105,21 +107,32 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
       setIsLoading(true)
       setStatus('idle')
 
+      // Procesar URL según el tipo
+      let finalVideoUrl = videoUrl.trim()
+      if (inputType === 'heygen') {
+        const mp4Url = transformHeyGenUrlToMp4(videoUrl.trim())
+        if (mp4Url) {
+          finalVideoUrl = mp4Url
+        } else {
+          throw new Error('No se pudo procesar el HTML de HeyGen')
+        }
+      }
+
       if (isScheduled && scheduledDateTime) {
-        console.log('📅 Programando video para:', scheduledDateTime, videoId, videoUrl)
-        
+        console.log('📅 Programando video para:', scheduledDateTime, videoId, finalVideoUrl)
+
         const response = await fetch('/api/videos/schedule', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ 
-            videoId, 
-            videoUrl: videoUrl.trim(),
+          body: JSON.stringify({
+            videoId,
+            videoUrl: finalVideoUrl,
             scheduledDateTime: scheduledDateTime.toISOString()
           }),
         })
-        
+
         const data = await response.json()
 
         if (!response.ok) {
@@ -128,19 +141,19 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
 
         console.log('✅ Video programado exitosamente')
       } else {
-        console.log('🚀 Enviando video para publicación inmediata:', videoId, videoUrl)
+        console.log('🚀 Enviando video para publicación inmediata:', videoId, finalVideoUrl)
 
         const response = await fetch('/api/webhooks/publicar-video', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ 
-            videoId, 
-            videoUrl: videoUrl.trim()
+          body: JSON.stringify({
+            videoId,
+            videoUrl: finalVideoUrl
           }),
         })
-        
+
         const data = await response.json()
 
         if (!response.ok) {
@@ -151,7 +164,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
       }
 
       setStatus('success')
-      
+
       // Refrescar la página para mostrar el nuevo estado
       router.refresh()
 
@@ -162,6 +175,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
         setScheduledDate('')
         setScheduledTime('')
         setStatus('idle')
+        setInputType('url')
       }, 2000)
 
     } catch (error) {
@@ -209,7 +223,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
     return (
       <>
         <Upload className="h-4 w-4 mr-2" />
-        Agregar Link de Video
+        Agregar Video
       </>
     )
   }
@@ -235,29 +249,74 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
         <DialogContent className="max-w-[95vw] sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-800 text-black dark:text-white">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Link className="h-5 w-5" />
-              Agregar Link del Video
+              <Video className="h-5 w-5" />
+              Agregar Video
             </DialogTitle>
             <DialogDescription>
-              Ingresa la URL del video y elige si publicarlo ahora o programarlo para más tarde
+              Selecciona el tipo de video y elige si publicarlo ahora o programarlo para más tarde
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="videoUrl">URL del Video</Label>
-              <textarea
-                id="videoUrl"
-                placeholder="https://ejemplo.com/video.mp4 o código HTML de HeyGen"
-                value={videoUrl}
-                onChange={(e) => setVideoUrl(e.target.value)}
-                className="w-full min-h-[80px] p-3 bg-white dark:bg-slate-600 text-black dark:text-white border border-gray-300 dark:border-slate-500 rounded-md resize-y"
-                required
-                disabled={isLoading}
-              />
-              <p className="text-sm text-muted-foreground">
-                Puedes pegar una URL normal o el código HTML completo de HeyGen
-              </p>
+            <div className="space-y-4">
+              <div className="space-y-3">
+                <Label>Tipo de video</Label>
+                <div className="flex gap-2">
+                  <CustomButton
+                    type="button"
+                    variant={inputType === 'url' ? 'primary' : 'neutral'}
+                    size="sm"
+                    onClick={() => { setInputType('url'); setVideoUrl('') }}
+                    disabled={isLoading}
+                  >
+                    <Link className="h-4 w-4 mr-2" />
+                    URL Normal
+                  </CustomButton>
+                  <CustomButton
+                    type="button"
+                    variant={inputType === 'heygen' ? 'primary' : 'neutral'}
+                    size="sm"
+                    onClick={() => { setInputType('heygen'); setVideoUrl('') }}
+                    disabled={isLoading}
+                  >
+                    <Video className="h-4 w-4 mr-2" />
+                    HeyGen HTML
+                  </CustomButton>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="videoUrl">
+                  {inputType === 'url' ? 'URL del Video' : 'Código HTML de HeyGen'}
+                </Label>
+                {inputType === 'url' ? (
+                  <Input
+                    id="videoUrl"
+                    type="url"
+                    placeholder="https://ejemplo.com/video.mp4"
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
+                    className="w-full bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
+                    required
+                    disabled={isLoading}
+                  />
+                ) : (
+                  <textarea
+                    id="videoUrl"
+                    placeholder='<a href="https://app.heygen.com/share/..."><p>...</p><img src="..." /></a>'
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
+                    className="w-full min-h-[100px] p-3 bg-white dark:bg-slate-600 text-black dark:text-white border border-gray-300 dark:border-slate-500 rounded-md resize-y font-mono text-sm"
+                    required
+                    disabled={isLoading}
+                  />
+                )}
+                <p className="text-sm text-muted-foreground">
+                  {inputType === 'url'
+                    ? 'URL de YouTube, Vimeo, Google Drive, Dropbox, etc.'
+                    : 'Pega aquí el código HTML completo que obtienes de HeyGen'}
+                </p>
+              </div>
             </div>
 
             <div className="bg-card border border-border rounded-lg p-4">
@@ -318,9 +377,9 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
             </div>
 
             <div className="flex flex-col sm:flex-row justify-end gap-2">
-              <CustomButton 
+              <CustomButton
                 type="button"
-                variant="neutral" 
+                variant="neutral"
                 onClick={() => setIsModalOpen(false)}
                 disabled={isLoading}
                 className="w-full sm:w-auto"
@@ -328,9 +387,9 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
                 <X className="h-4 w-4 mr-2" />
                 Cancelar
               </CustomButton>
-              
+
               {scheduledDate && scheduledTime && (
-                <CustomButton 
+                <CustomButton
                   type="button"
                   variant="primary"
                   onClick={handleSchedulePublication}
@@ -350,8 +409,8 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
                   )}
                 </CustomButton>
               )}
-              
-              <CustomButton 
+
+              <CustomButton
                 type="button"
                 variant="success"
                 onClick={handlePublishNow}
