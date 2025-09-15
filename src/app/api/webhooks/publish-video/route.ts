@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { transformHeyGenUrlToMp4 } from '@/lib/utils'
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,6 +24,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Video de HeyGen no disponible' }, { status: 400 })
     }
 
+    // Transformar la URL de HeyGen a formato MP4
+    const mp4Url = transformHeyGenUrlToMp4(video.urlHeygen)
+
+    if (!mp4Url) {
+      return NextResponse.json({ error: 'No se pudo procesar la URL de HeyGen' }, { status: 400 })
+    }
+
     // Preparar datos para n8n (publicación en redes sociales)
     const n8nPayload = {
       videoId: video.id,
@@ -30,7 +38,7 @@ export async function POST(request: NextRequest) {
       descripcion: video.descripcion,
       textoLinkedin: video.textoLinkedin,
       tweet: video.tweet,
-      urlHeygen: video.urlHeygen,
+      urlHeygen: mp4Url,
       webhookUrl: `${process.env.NEXTAUTH_URL}/api/webhooks/published`
     }
 

@@ -30,11 +30,20 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
       return
     }
 
-    // Validación básica de URL
-    try {
-      new URL(videoUrl)
-    } catch {
-      alert('Por favor, ingresa una URL válida')
+    // Validación: acepta URLs normales o HTML de HeyGen
+    const isValidUrl = () => {
+      try {
+        new URL(videoUrl)
+        return true
+      } catch {
+        // Verificar si es HTML de HeyGen
+        const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">.*<\/a>/s
+        return heygenPattern.test(videoUrl.trim())
+      }
+    }
+
+    if (!isValidUrl()) {
+      alert('Por favor, ingresa una URL válida o el código HTML de HeyGen')
       return
     }
 
@@ -58,11 +67,20 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
       return
     }
 
-    // Validación básica de URL
-    try {
-      new URL(videoUrl)
-    } catch {
-      alert('Por favor, ingresa una URL válida')
+    // Validación: acepta URLs normales o HTML de HeyGen
+    const isValidUrl = () => {
+      try {
+        new URL(videoUrl)
+        return true
+      } catch {
+        // Verificar si es HTML de HeyGen
+        const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">.*<\/a>/s
+        return heygenPattern.test(videoUrl.trim())
+      }
+    }
+
+    if (!isValidUrl()) {
+      alert('Por favor, ingresa una URL válida o el código HTML de HeyGen')
       return
     }
 
@@ -228,18 +246,17 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
           <div className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="videoUrl">URL del Video</Label>
-              <Input
+              <textarea
                 id="videoUrl"
-                type="url"
-                placeholder="https://ejemplo.com/video.mp4"
+                placeholder="https://ejemplo.com/video.mp4 o código HTML de HeyGen"
                 value={videoUrl}
                 onChange={(e) => setVideoUrl(e.target.value)}
-                className="w-full bg-white dark:bg-slate-600 text-black dark:text-white border-gray-300 dark:border-slate-500"
+                className="w-full min-h-[80px] p-3 bg-white dark:bg-slate-600 text-black dark:text-white border border-gray-300 dark:border-slate-500 rounded-md resize-y"
                 required
                 disabled={isLoading}
               />
               <p className="text-sm text-muted-foreground">
-                Puede ser una URL de YouTube, Vimeo, Google Drive, Dropbox, etc.
+                Puedes pegar una URL normal o el código HTML completo de HeyGen
               </p>
             </div>
 
