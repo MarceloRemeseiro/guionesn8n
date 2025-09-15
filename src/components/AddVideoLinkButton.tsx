@@ -37,7 +37,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
         return true
       } catch {
         // Verificar si es HTML de HeyGen
-        const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">.*<\/a>/s
+        const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">[\s\S]*<\/a>/
         return heygenPattern.test(videoUrl.trim())
       }
     }
@@ -74,7 +74,7 @@ export default function AddVideoLinkButton({ videoId, disabled = false }: AddVid
         return true
       } catch {
         // Verificar si es HTML de HeyGen
-        const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">.*<\/a>/s
+        const heygenPattern = /<a href="https:\/\/app\.heygen\.com\/share\/[^"]+">[\s\S]*<\/a>/
         return heygenPattern.test(videoUrl.trim())
       }
     }
