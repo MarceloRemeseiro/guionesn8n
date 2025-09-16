@@ -8,7 +8,7 @@ import VideoFilters, { VideoFilters as VideoFiltersType } from '@/components/Vid
 import Pagination from '@/components/Pagination'
 import CancelVideoButton from '@/components/CancelVideoButton'
 import ViewContentButton from '@/components/ViewContentButton'
-import SendForApprovalButton from '@/components/SendForApprovalButton'
+import ApprovalButtons from '@/components/ApprovalButtons'
 import AddVideoLinkButton from '@/components/AddVideoLinkButton'
 import PublishVideoButton from '@/components/PublishVideoButton'
 import CancelScheduleButton from '@/components/CancelScheduleButton'
@@ -329,7 +329,7 @@ export default function VideosList() {
                             <div className="flex items-center justify-between w-full">
                               <div className="flex gap-2">
                                 <ViewContentButton video={video} />
-                                <SendForApprovalButton videoId={video.id} />
+                                <ApprovalButtons videoId={video.id} />
                               </div>
                               <CancelVideoButton videoId={video.id} />
                             </div>
@@ -348,7 +348,7 @@ export default function VideosList() {
                           {video.estado === 'aprobado' && (
                             <div className="flex items-center justify-between w-full">
                               <div className="flex gap-2">
-                                <ViewContentButton video={video} readOnly={true} />
+                                <ViewContentButton video={video} />
                                 <AddVideoLinkButton videoId={video.id} />
                               </div>
                               <CancelVideoButton videoId={video.id} />
