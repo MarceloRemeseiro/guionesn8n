@@ -225,6 +225,28 @@ export default function VideosList() {
     }
   }
 
+  const getEstadoBackgroundColor = (estado: string): string => {
+    switch (estado) {
+      case 'borrador':
+      case 'esperando_aprobacion':
+        return 'bg-orange-50/70 dark:bg-orange-900/25 border-orange-200/90 dark:border-orange-700/40'
+      case 'aprobado':
+      case 'video_agregado':
+        return 'bg-blue-50/70 dark:bg-blue-900/25 border-blue-200/90 dark:border-blue-700/40'
+      case 'programado':
+      case 'publicado':
+        return 'bg-green-50/70 dark:bg-green-900/25 border-green-200/90 dark:border-green-700/40'
+      case 'esperando_ia':
+      case 'procesando_ia':
+        return 'bg-amber-50/70 dark:bg-amber-900/25 border-amber-200/90 dark:border-amber-700/40'
+      case 'cancelado':
+      case 'error':
+        return 'bg-red-50/70 dark:bg-red-900/25 border-red-200/90 dark:border-red-700/40'
+      default:
+        return 'bg-white dark:bg-slate-700 border-gray-200 dark:border-slate-600'
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
@@ -276,7 +298,7 @@ export default function VideosList() {
             {videos.map((video) => {
               const EstadoIcon = getEstadoIcon(video.estado)
               return (
-                <Card key={video.id} className="relative bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600">
+                <Card key={video.id} className={`relative ${getEstadoBackgroundColor(video.estado)}`}>
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
